@@ -2,7 +2,6 @@ package org.application.rest.studentsjunitexample;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -202,5 +201,31 @@ class StudentServiceTest {
         assertIterableEquals(expectedResult, actualResult, () -> "The student IDs are not equal");
 
     }
+
+    @Test
+    public void getStudentNameByDepartmentTestAssertThrows(){
+
+        StudentService studentService = new StudentService();
+        Student student = new Student(1, "John Doe", "Science");
+
+        studentService.addStudent(student);
+
+        assertThrows(StudentNotFoundException.class, () -> {
+            studentService.getStudentByName("Non Existent");
+        }, "Expected getStudentByName to throw, but it didn't");
+    }
+    @Test
+    public void getStudentNameByDepartmentTestAssertThrowsExactly(){
+
+        StudentService studentService = new StudentService();
+        Student student = new Student(1, "John Doe", "Science");
+        studentService.addStudent(student);
+
+        assertThrowsExactly(StudentNotFoundException.class, () -> {
+            studentService.getStudentByName("Umesh");
+        });
+
+    }
+
 
 }
